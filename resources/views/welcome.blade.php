@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Cek Ongkir</title>
-    {{--  <meta name="csrf-token" content="{{ csrf_token() }}">  --}}
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     {{--  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">  --}}
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -69,18 +69,18 @@
                     </div>
 
                     <div class="d-flex justify-content-end">
-                        <button class="btn btn-md btn-primary btn-block btn-check">Submit</button>
+                        <button type="submit" class="btn btn-md btn-primary btn-block btn-check">Cek Ongkir</button>
                     </div>
 
                     
                     {{--  ongkir  --}}
                     <div class="row mt-3">
                       <div class="col-md-12 d-flex justify-content-end">
-                          <div class="card ongkir col-md-12">
-                              <div class="card-body">
-                                  <li class="list-group-item" id="ongkir"></li>
-                              </div>
-                          </div>
+                        <div class="card d-none ongkir">
+                            <div class="card-body">
+                                <ul class="list-group" id="ongkir"></ul>
+                            </div>
+                        </div>
                       </div>
                     </div>
                       
@@ -137,16 +137,15 @@
             });
         
             {{--  cek ongkir  --}}
-            let isProcessing = false;
-            $('.btn-check').click(function (e) {
+            {{--  let isProcessing = false;
+        $('.btn-check').click(function (e) {
             e.preventDefault();
 
-            {{--  let token = $("meta[name='csrf-token']").attr("content");  --}}
-            let token = $('csrf-token');
-            let city_origin = $('select[name=city_origin]').val();
+            let token            = $("meta[name='csrf-token']").attr("content");
+            let city_origin      = $('select[name=city_origin]').val();
             let city_destination = $('select[name=city_destination]').val();
-            let courier = $('select[name=courier]').val();
-            let weight = $('#weight').val();
+            let courier          = $('select[name=courier]').val();
+            let weight           = $('#weight').val();
 
             if(isProcessing){
                 return;
@@ -154,13 +153,13 @@
 
             isProcessing = true;
             jQuery.ajax({
-                url: "/",
+                url: "/ongkir",
                 data: {
-                    _token: token,
-                    city_origin: city_origin,
-                    city_destination: city_destination,
-                    courier: courier,
-                    weight: weight,
+                    _token:              token,
+                    city_origin:         city_origin,
+                    city_destination:    city_destination,
+                    courier:             courier,
+                    weight:              weight,
                 },
                 dataType: "JSON",
                 type: "POST",
@@ -168,7 +167,7 @@
                     isProcessing = false;
                     if (response) {
                         $('#ongkir').empty();
-                        $('#ongkir').addClass('d-block');
+                        $('.ongkir').addClass('d-block');
                         $.each(response[0]['costs'], function (key, value) {
                             $('#ongkir').append('<li class="list-group-item">'+response[0].code.toUpperCase()+' : <strong>'+value.service+'</strong> - Rp. '+value.cost[0].value+' ('+value.cost[0].etd+' hari)</li>')
                         });
@@ -177,9 +176,10 @@
                 }
             });
 
-        });
+        });  --}}
+
             
-          });
+        });
         </script>
 </body>
 </html>
